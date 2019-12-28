@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1573976554 source:d:\c++\tamrin 2 data base\basu_data_base\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<iomanip>
+	<vector>
+	<math.h>
+

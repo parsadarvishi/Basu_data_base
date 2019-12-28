@@ -37,9 +37,10 @@ struct Class
     string seprator (const string);
     void addClass(string);
     void removeClass (string);
-    void AddStudnet (string , Date , unsigned long long int , float);
+    void AddStudnet ( string , string , Date , unsigned long long int , float);
     void RemoveStudent(unsigned long long int);
     void showclass ();
+    void showall ();
     void start ();
 
 
@@ -84,19 +85,19 @@ void start ()
             cout <<  "7    basu search <ID>                                  :"  <<'\n'<< "        this command shows the information of a student by its id  "<<endl;
             cout <<  "8    basu search <Full Name                      :"  <<'\n'<< "        this command shows the information of a student by its fullname  "<<endl;
             cout <<  "9    basu show                                            :"  <<'\n'<< "          this command show the selected class information"<<endl;
-            cout <<  "10  basu show <Class  Name>                  :"  <<'\n'<< "        this command shows the class information"<<endl;
+            cout <<  "10  basu showall                  :"  <<'\n'<< "        this command shows the class information"<<endl;
             cout <<  "11  basu sort name                                    :"  <<'\n'<< "          this command will orgnize the students by their name in class(es)" << endl;
             cout <<  "12  basu sort id                                          :"  <<'\n'<< "           this command will orgnize the students by their IDs"<<endl;
             cout <<  "13  basu save                                               :"  <<'\n'<< "          this command will save the  information of classes in sprate files" << endl;
             cout <<  "14  exit                                                           :"  <<'\n'<< "         this command will end the programm"<<endl;
      }
-     else if(command[5]==   's' && command[6]=='a')
+     else if(command[5]==   's' && command[6]=='h' && command[9]) // show all
      {
-
+                showall();
      }
-     else if(command[5]==   's' && command[6]=='h')
+     else if(command[5]==   's' && command[6]=='h') // show the corrent class
      {
-
+            showclass();
      }
      else if(command[5] == 'r' && command[12] == 'c'){ // remove class
         string name_remove_class = seprator(command);
@@ -123,6 +124,38 @@ void start ()
         addClass(name);
         command.clear();
      }
+     else if(command[5] == 'a' && command[7] == 'd' && command[9] == 's') // add student
+     {
+         string name , lastname ;
+         unsigned long long int ID;
+         float Grade;
+         Date Birth;
+         cout << "please Enter these information :" << endl;
+         cout << "First name :" ;
+         cin >> name;
+         cout <<  endl;
+         cout << "Last name :";
+         cin >> lastname;
+         cout << "Birth Date:";
+         cout << endl;
+         cout << "Day:";
+         cin >> Birth.Day;
+           cout << endl;
+         cout << "Month:";
+         cin >> Birth.Month;
+           cout << endl;
+         cout << "Year:";
+         cin >> Birth.Year;
+           cout << endl;
+         cout << "ID:";
+         cin >> ID;
+           cout << endl;
+           cout << "Grade :";
+           cin >> Grade;
+             cout << endl;
+             cout << "Student will be added to the class :)" << endl;
+             AddStudnet(name , lastname , Birth , ID , Grade);
+     }
 
    }
 }
@@ -140,13 +173,15 @@ void addClass (string Str)
     string capacity;
     getline(input , newclass.ClassName);
     input >>capacity;
-    newclass.Capacity=stoi(capacity);
+    newclass.Capacity=atoi(capacity.c_str());
     for(int i=0 ; i<=newclass.Capacity ; i++)
     {
         string birth ;
         Student newstudent;
         input >> newstudent.Firstname;
+        cout << newstudent.Firstname << endl;
         input >> newstudent.Lastname;
+         cout << newstudent.Lastname << endl;
         input >> birth;
         string  year , month , day;
         int year1 , month1 , day1;
@@ -172,8 +207,12 @@ void addClass (string Str)
         newstudent.Birthday.Day=day1;
         newstudent.Birthday.Month=month1;
         newstudent.Birthday.Year=year1;
-        input >> newstudent.Grade;
-        input >> newstudent.ID;
+        cout << newstudent.Birthday.Day << newstudent.Birthday.Month << newstudent.Birthday.Year;
+        string Grade , ID;
+        input >> Grade;
+        newstudent.Grade=atof(Grade.c_str());
+        input >> ID;
+        cout << newstudent.Grade << newstudent.ID;
         newclass.Data.push_back(newstudent);
     }
     Database.push_back(newclass);
@@ -220,3 +259,34 @@ void showclass (){
         }
     }
 }
+void showall (){
+            for (size_t  j = 0 ; j <= Database.at(j).Capacity ; j++){
+                for (int i =0 ; i<Database.at(j).Data.size() ; i++){
+                cout << Database.at(j).Data.at(i).Firstname << " " ;
+                cout << Database.at(j).Data.at(i).Lastname  << " ";
+                cout << Database.at(j).Data.at(i).Birthday.Year << "/" << Database.at(j).Data.at(i).Birthday.Month << "/" << Database.at(j).Data.at(i).Birthday.Day << " ";
+                cout << Database.at(j).Data.at(i).Grade << " ";
+                cout << Database.at(j).Data.at(i).ID << " ";
+                }
+            }
+}
+void AddStudnet (string  F , string L , Date A , unsigned long long int I , float G)
+{
+        for(int i =0 ; i<=Database.size() ; i++)
+        {
+            if(Database.at(i).ClassName == currentClass)
+            {
+                Student newstudent;
+                newstudent.Firstname = F;
+                newstudent.Lastname = L;
+                newstudent.Birthday.Day = A.Day;
+                newstudent.Birthday.Month = A.Month;
+                newstudent.Birthday.Year=A.Year;
+                newstudent.ID=I;
+                newstudent.Grade=G;
+                Database.at(i).Data.push_back(newstudent);
+            }
+        }
+}
+
+
